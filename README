@@ -1,0 +1,27 @@
+Snorlax request dispatcher
+--------------------------
+Sinatra like rest stuff in PHP
+
+
+
+
+Example Nginx config
+--------------------------
+server {
+    listen 80;
+    root /path/to/root/directory;
+    index index.htm index.html index.php;
+
+    dav_methods PUT DELETE;
+
+    location / {
+        try_files /public$uri /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/path/to/unix/socket/or/ip/and/port;
+        include /path/to/fastcgi.conf;
+
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    }
+}

@@ -18,21 +18,6 @@ class Request {
     private $_data;
     private $_rawData;
 
-    public static function build() {
-        $type = $_SERVER['REQUEST_METHOD'];            
-        $headers = Util::getallheaders();
-        $path = Util::getrequestpath();
-        $data = $_POST;
-        $params = $_GET;
-        $rawData = file_get_contents('php://input');
-
-        if(strcasecmp($headers['Content-Type'], 'application/json') ){
-            $data = json_decode($rawData);
-        }
-
-        return new Request($type, $path, $params, $headers, $data, $rawData);
-    }
-
     public function __construct($type, $path, $params, $headers, $data, $rawData) {
         $this->_type = $type;
         $this->_path = $path;
@@ -58,12 +43,24 @@ class Request {
         return $this->_path;
     }
 
+    public function getInternalPath() {
+        return $this->_internalPath;
+    }
+
     public function getParams() {
         return $this->_params;
     }
 
     public function getParam($name) {
         return array_key_exists($name, $this->_params) ? $this->_params[$name] : '';
+    }
+
+    public function setParam($name, $value) {
+        $this->_params[$name] = $value;
+    }
+
+    public function getData() {
+        return $this->_data;
     }
 
 }

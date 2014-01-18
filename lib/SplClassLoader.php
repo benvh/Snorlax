@@ -11,7 +11,7 @@ class SplClassLoader {
         $this->_namespace = $namespace;
         if(is_array($includeDirectories)) {
             $baseDir = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
-            $this->_includeDirectories = array_map( function($dir) use($baseDir) {                
+            $this->_includeDirectories = array_map( function($dir) use($baseDir) {
                 return realpath($baseDir . DIRECTORY_SEPARATOR . $dir);
             }, $includeDirectories);
         } else {
@@ -23,7 +23,7 @@ class SplClassLoader {
         spl_autoload_register(array($this, 'load'));
     }
 
-    public function load($class) {        
+    public function load($class) {
         $namespace = '';
         $className = $class;
 
@@ -36,7 +36,7 @@ class SplClassLoader {
 
         $file = strtolower( str_replace(static::$NAMESPACE_SEPARATOR, DIRECTORY_SEPARATOR, $namespace) ) . DIRECTORY_SEPARATOR . $className . '.php';
 
-        foreach($this->_includeDirectories as $dir) {            
+        foreach($this->_includeDirectories as $dir) {
             if(file_exists($dir . DIRECTORY_SEPARATOR . $file)) {
                 require $dir . DIRECTORY_SEPARATOR . $file;
                 break;
