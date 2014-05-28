@@ -3,6 +3,20 @@ Snorlax request dispatcher
 Sinatra like rest stuff in PHP
 
 
+Index.php example
+--------------------------
+require 'Snorlax/Snorlax.php'
+
+Snorlax\GET('/foo', function($req, $resp) {
+    $resp->write("bar!");
+});
+
+Snorlax\POST('/foo/{bar}', function($res, $resp) {
+    $bar = $req->getParam("bar");
+    $resp->write("your 'bar' was " . $bar);
+});
+
+Snorlax\i_choose_you( new SomeClassThatYouWantToUseAsYourContext() ); //The context will be "$this" inside your rest callbacks...
 
 
 Example Nginx config
